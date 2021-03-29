@@ -13,16 +13,18 @@
             kicad = callPackage "${nixpkgsUnstable}/pkgs/applications/science/electronics/kicad" {
               pname = "kicad-unstable";
               stable = false;
-              srcs = {
-                kicadVersion = "2021-02-22";
+              srcs = let
+                version = "2021-03-29";
+              in {
+                kicadVersion = version;
                 kicad = fetchFromGitLab {
                   group = "kicad";
                   owner = "code";
                   repo = "kicad";
-                  rev = "c1aa50e5222d708fa8a86c075472b5f92d484aba";
-                  sha256 = "1m83skcxb2l4cgd4r7dxjc251v768ikjpvmzwsx5yk5qz0ck6zyx";
+                  rev = "38c849bde7ef779f9ee43f7af2fd9e56b13008c6";
+                  sha256 = "1k0m8h516l711bwyw0rk4il53wz2ap16vsq1i592fmzsfil3wb44";
                 };
-                libVersion = "2021-02-22";
+                libVersion = version;
                 i18n = fetchFromGitLab {
                   group = "kicad";
                   owner = "code";
@@ -34,8 +36,8 @@
                   group = "kicad";
                   owner = "libraries";
                   repo = "kicad-symbols";
-                  rev = "12edec9499b0d470de14ceb68226accb29d6355a";
-                  sha256 = "181bj748h3gcs7f0006z4v3yml319yc96i3zwpbqxl5frjynrkwy";
+                  rev = "e821243533520db253e42f9f84a60011b87b902d";
+                  sha256 = "0vi6qyibfkjmm3dany8kvhp6nzjhyixmmp8w15icih47mz269qm6";
                 };
                 templates = fetchFromGitLab {
                   group = "kicad";
@@ -48,8 +50,8 @@
                   group = "kicad";
                   owner = "libraries";
                   repo = "kicad-footprints";
-                  rev = "964e997877b61806cb800d97e360a6c1bc5fab52";
-                  sha256 = "0i7f40mcwd90b447x64fb58xnpfvn08ai59sg5nm2rbp623dqpvp";
+                  rev = "9646bb7b4b215ccd65889b5a0c5b2e52be47b097";
+                  sha256 = "1fvh2hyahjjmsivdblx1aaj9m2iz04z9wccz8h9kp3vzyrb3i17h";
                 };
                 packages3d = fetchFromGitLab {
                   group = "kicad";
