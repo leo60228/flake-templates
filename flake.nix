@@ -10,6 +10,11 @@
         path = ./pcb;
         description = "A KiCAD project";
       };
+
+      package = {
+        path = ./package;
+        description = "A simple package";
+      };
     };
   };
 }
