@@ -1,0 +1,3 @@
+r
+loadfile ${CMAKE_CURRENT_BINARY_DIR}/my_project.hex
+exit
