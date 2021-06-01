@@ -1,16 +1,15 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.09";
-  inputs.nixpkgsUnstable.url = "github:NixOS/nixpkgs";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.05";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
-  outputs = { nixpkgs, nixpkgsUnstable, flake-utils, ... }:
+  outputs = { nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
       in rec {
         packages = {
           kicad-unstable = with pkgs; let
-            kicad = callPackage "${nixpkgsUnstable}/pkgs/applications/science/electronics/kicad" {
+            kicad = callPackage "${nixpkgs}/pkgs/applications/science/electronics/kicad" {
               pname = "kicad-unstable";
               stable = false;
               srcs = let
