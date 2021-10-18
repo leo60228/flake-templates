@@ -15,6 +15,11 @@
         path = ./package;
         description = "A simple package";
       };
+
+      rp2040 = {
+        path = ./rp2040;
+        description = "A pico-sdk project";
+      };
     };
   };
 }
