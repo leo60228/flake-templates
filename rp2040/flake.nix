@@ -1,20 +1,45 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
   inputs.flake-utils.url = "github:numtide/flake-utils";
-  inputs.nix-rp2040.url = "github:leo60228/nix-rp2040";
-  inputs.nix-jlink.url = "github:leo60228/nix-jlink";
 
-  outputs = { nixpkgs, flake-utils, nix-rp2040, nix-jlink, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    { nixpkgs, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
-        inherit (nix-rp2040.packages.${system}) pico-sdk;
-        inherit (nix-jlink.packages.${system}) jlink;
-      in {
-        devShell = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [ gcc-arm-embedded cmake jlink ];
-          buildInputs = [ pico-sdk ];
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          config.segger-jlink.acceptLicense = true;
+          overlays = [ (self: super: { pico-sdk = super.pico-sdk.override { withSubmodules = true; }; }) ];
         };
+        shell =
+          {
+            mkShell,
+            pkgsCross,
+            cmake,
+            pico-sdk,
+            picotool,
+            segger-jlink-headless,
+          }:
+          mkShell {
+            packages = [
+              cmake
+              pkgsCross.arm-embedded.stdenv.cc
+              pico-sdk
+              picotool
+              segger-jlink-headless
+            ];
+
+            hardeningDisable = [ "format" "stackprotector" "pic" "relro" "zerocallusedregs" ];
+
+            shellHook = ''
+              export PICO_SDK_PATH=${pico-sdk}/lib/pico-sdk
+            '';
+          };
+      in
+      {
+        devShell = pkgs.callPackage shell { };
       }
     );
 }
